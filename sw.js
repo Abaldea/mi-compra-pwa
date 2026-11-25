@@ -6,7 +6,7 @@
    VERSION_CACHE para que los navegadores descarguen el nuevo.
    ========================================================= */
 
-const VERSION_CACHE = "mi-compra-v1";
+const VERSION_CACHE = "mi-compra-v2";
 
 // Ficheros que forman la aplicación (rutas relativas, válidas en GitHub Pages)
 const APP_SHELL = [

@@ -1,0 +1,341 @@
+/* =========================================================
+   «Mi compra» — estilos
+   Una sola pantalla, pensada para el móvil.
+   Los colores se definen como variables para poder cambiar
+   el tema claro y el oscuro en un único sitio.
+   ========================================================= */
+
+:root {
+  color-scheme: light dark;
+
+  /* Colores del tema claro */
+  --fondo: #f4f6f3;
+  --superficie: #ffffff;
+  --texto: #1b1f1c;
+  --texto-apagado: #5c665f;
+  --primario: #1f6f43;
+  --sobre-primario: #ffffff;
+  --borde: #d5dcd7;
+  --peligro: #b3261e;
+
+  /* Medidas */
+  --radio: 14px;
+  --zona-tactil: 48px;
+  --sombra: 0 1px 2px rgba(16, 24, 20, 0.06), 0 4px 12px rgba(16, 24, 20, 0.04);
+}
+
+/* Tema oscuro: se activa solo si el sistema lo pide */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #121512;
+    --superficie: #1b201c;
+    --texto: #e9eeea;
+    --texto-apagado: #a4aea7;
+    --primario: #6fd39b;
+    --sobre-primario: #0e2318;
+    --borde: #3a443c;
+    --peligro: #ff8f85;
+    --sombra: none;
+  }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+
+/* ---------- Contenedor principal ---------- */
+
+.app {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+}
+
+/* ---------- Cabecera ---------- */
+
+.cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.contador {
+  margin: 0;
+  padding: 4px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto-apagado);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- Formulario ---------- */
+
+.formulario {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campo-nombre {
+  grid-column: 1 / -1;
+}
+
+.campo label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--texto-apagado);
+}
+
+.campo input {
+  width: 100%;
+  min-height: var(--zona-tactil);
+  padding: 0 12px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: 1rem; /* 16 px evita el zoom automático en iOS */
+}
+
+.campo input::placeholder {
+  color: var(--texto-apagado);
+  opacity: 0.8;
+}
+
+.campo input[aria-invalid="true"] {
+  border-color: var(--peligro);
+}
+
+/* ---------- Botones ---------- */
+
+.boton {
+  min-height: var(--zona-tactil);
+  padding: 0 16px;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton-primario {
+  border: 1px solid transparent;
+  background: var(--primario);
+  color: var(--sobre-primario);
+}
+
+.boton-secundario {
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+  font-weight: 500;
+}
+
+.boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Solo aplicamos efectos al pasar el ratón en dispositivos que lo tienen */
+@media (hover: hover) {
+  .boton-primario:hover {
+    filter: brightness(1.08);
+  }
+
+  .boton-secundario:not(:disabled):hover {
+    border-color: var(--primario);
+  }
+}
+
+/* ---------- Mensajes ---------- */
+
+.error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--peligro);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.barra {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.vacio {
+  margin: 20px 0 0;
+  padding: 32px 16px;
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio);
+  color: var(--texto-apagado);
+  text-align: center;
+}
+
+.aviso-noscript {
+  margin: 0;
+  padding: 16px;
+  text-align: center;
+}
+
+/* ---------- Lista de productos ---------- */
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fila {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+/* Toda la fila (menos la papelera) sirve para marcar como comprado */
+.alternar {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nombre {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.cantidad {
+  color: var(--texto-apagado);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Círculo que indica si el producto está pendiente o comprado */
+.marca {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--borde);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Estado comprado: texto tachado y color apagado */
+.fila.comprada .alternar {
+  color: var(--texto-apagado);
+}
+
+.fila.comprada .nombre {
+  text-decoration: line-through;
+}
+
+.fila.comprada .marca {
+  border-color: var(--primario);
+  background: var(--primario);
+  color: var(--sobre-primario);
+}
+
+.fila.comprada .marca::after {
+  content: "✓";
+}
+
+/* Botón de papelera */
+.borrar {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 56px;
+  min-height: var(--zona-tactil);
+  border: 0;
+  border-left: 1px solid var(--borde);
+  background: none;
+  color: var(--texto-apagado);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .borrar:hover {
+    background: rgba(179, 38, 30, 0.08);
+    color: var(--peligro);
+  }
+}
+
+/* ---------- Foco visible para navegación con teclado ---------- */
+
+:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 2px;
+}
+
+.alternar:focus-visible,
+.borrar:focus-visible {
+  outline-offset: -3px;
+}
+
+/* ---------- Accesibilidad: menos movimiento ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mi compra</title>
+  <meta name="description" content="Lista de la compra sencilla, rápida y sin conexión.">
+
+  <!-- Color de la barra del navegador según el tema del sistema -->
+  <meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121512" media="(prefers-color-scheme: dark)">
+
+  <!-- Iconos y manifest para poder instalar la app -->
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon-180.png">
+
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="cabecera">
+      <h1>Mi compra</h1>
+      <p id="contador" class="contador" aria-live="polite">0 pendientes</p>
+    </header>
+
+    <!-- Formulario para añadir un producto -->
+    <form id="form-add" class="formulario" novalidate>
+      <div class="campo campo-nombre">
+        <label for="nombre">Producto</label>
+        <input
+          id="nombre"
+          name="nombre"
+          type="text"
+          maxlength="60"
+          autocomplete="off"
+          autocapitalize="sentences"
+          enterkeyhint="done"
+          placeholder="Por ejemplo, leche"
+          required>
+      </div>
+
+      <div class="campo campo-cantidad">
+        <label for="cantidad">Cant.</label>
+        <input
+          id="cantidad"
+          name="cantidad"
+          type="number"
+          min="1"
+          max="99"
+          step="1"
+          value="1"
+          inputmode="numeric">
+      </div>
+
+      <button type="submit" class="boton boton-primario">Añadir</button>
+
+      <p id="error" class="error" role="alert" hidden></p>
+    </form>
+
+    <!-- Acción sobre los productos ya comprados -->
+    <div class="barra">
+      <button id="borrar-comprados" class="boton boton-secundario" type="button" disabled>
+        Borrar comprados
+      </button>
+    </div>
+
+    <p id="vacio" class="vacio" hidden>Tu lista está vacía. Añade el primer producto.</p>
+
+    <ul id="lista" class="lista"></ul>
+  </main>
+
+  <!-- Plantilla de una fila de la lista. app.js la clona por cada producto. -->
+  <template id="fila">
+    <li class="fila">
+      <button type="button" class="alternar" aria-pressed="false">
+        <span class="marca" aria-hidden="true"></span>
+        <span class="nombre"></span>
+        <span class="cantidad"></span>
+      </button>
+
+      <button type="button" class="borrar">
+        <svg class="icono" viewBox="0 0 24 24" width="24" height="24"
+             aria-hidden="true" focusable="false" fill="none"
+             stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 7h16"/>
+          <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+          <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12"/>
+          <path d="M10 11v6M14 11v6"/>
+        </svg>
+      </button>
+    </li>
+  </template>
+
+  <noscript>
+    <p class="aviso-noscript">Esta aplicación necesita JavaScript para funcionar.</p>
+  </noscript>
+</body>
+</html>
